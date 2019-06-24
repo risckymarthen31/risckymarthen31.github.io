@@ -1,3 +1,49 @@
+<?php
+
+function get_CURL($url)
+{
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+  $result = curl_exec($curl);
+  curl_close($curl);
+
+  return json_decode($result, true);
+}
+
+//Instagram API
+$clientID = '1731dfd6ae5b4236b1c0791a550e344a';
+$accessToken = '1820664604.1731dfd.fb778f67629f404c827d8efa41347aec';
+
+$result = get_CURL('https://api.instagram.com/v1/users/self/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec');
+
+$usernameIG = $result['data']['username'];
+$profilePicIG = $result['data']['profile_picture'];
+$followersIG = $result['data']['counts']['followed_by'];
+
+
+
+
+
+//latest IG post
+$result = get_CURL('https://api.instagram.com/v1/users/self/media/recent/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec&count=1');
+
+class C_Photos {
+  public $content_photos;
+  public $content_tags;
+
+  public function  __construct($_photos, $_tags) {
+    $this->content_photos   = $_photos;
+    $this->content_tags     = $_tags;
+  }
+}
+foreach ($result['data'] as $photo) {
+  $_portofolio[] = new C_Photos($photo['images']['standard_resolution']['url'], $photo['tags'][1]);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,16 +72,32 @@
 
   <!-- Main Stylesheet File -->
   <link href="css/style.css" rel="stylesheet">
+<!-- <<<<<<< HEAD
+  ======= -->
+  <link rel="manifest" href="manifest.json">
+<!-- >>>>>>> c67f8285d60d9bf179ca71a1d16a6803fd4deb8d
+-->
+<script src="push.js"></script>
+
+<style type="text/css">
+.tengah{
+  text-align: center;
+}
+.jarak{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
 
   <!-- =======================================================
     Theme Name: Rapid
     Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
     Author: BootstrapMade.com
     License: https://bootstrapmade.com/license/
-  ======================================================= -->
-</head>
+    ======================================================= -->
+  </head>
 
-<body>
+  <body>
   <!--==========================
   Header
   ============================-->
@@ -44,10 +106,10 @@
     <div id="topbar">
       <div class="container">
         <div class="social-links">
-          <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-          <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-          <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-          <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+          <a id="notify-button" class="twitter"><i class="fa fa-twitter"></i></a>
+          <a id="notify-button2" class="facebook"><i class="fa fa-facebook"></i></a>
+          <a id="notify-button3" class="linkedin"><i class="fa fa-linkedin"></i></a>
+          <a id="notify-button4" class="instagram"><i class="fa fa-instagram"></i></a>
         </div>
       </div>
     </div>
@@ -76,47 +138,52 @@
 
   <!--==========================
     Intro Section
-  ============================-->
-  <section id="intro" class="clearfix">
-    <div class="container d-flex h-100">
-      <div class="row justify-content-center align-self-center">
-        <div class="col-md-6 intro-info order-md-first order-last">
-          <h2>ThreeStudio Solutions<br>for Your <span>Photography!</span></h2>
-          <div>
-            <a href="#about" class="btn-get-started scrollto">Let's Go</a>
+    ============================-->
+    <section id="intro" class="clearfix">
+      <div class="container d-flex h-100">
+        <div class="row justify-content-center align-self-center">
+          <div class="col-md-6 intro-info order-md-first order-last">
+            <h2>ThreeStudio Solutions<br>for Your <span>Photography!</span></h2>
+            <div>
+              <button class="install_app btn-get-started" >
+                Install App
+              </button>
+              <!-- <a href="#about" class="btn-get-started scrollto">Let's Go</a> -->
+            </div>
+          </div>
+          
+          <div class="col-md-6 intro-img order-md-last order-first">
+            <img src="img/intro-img.svg" alt="" class="img-fluid">
           </div>
         </div>
-  
-        <div class="col-md-6 intro-img order-md-last order-first">
-          <img src="img/intro-img.svg" alt="" class="img-fluid">
-        </div>
+
       </div>
+    </section><!-- #intro -->
 
-    </div>
-  </section><!-- #intro -->
-
-  <main id="main">
+    <main id="main">
 
     <!--==========================
       About Us Section
-    ============================-->
-    <section id="about">
+      ============================-->
+      <section id="about">
 
-      <div class="container">
-        <div class="row">
+        <div class="container">
+          <div class="row">
 
-          <div class="col-lg-5 col-md-6">
-            <div class="about-img">
-              <img src="img/about-img-studio.jpg" alt="">
+            <div class="col-lg-5 col-md-6">
+              <div class="about-img">
+                <img src="img/about-img-studio.jpg" alt="">
+              </div>
             </div>
-          </div>
 
-          <div class="col-lg-7 col-md-6">
-            <div class="about-content">
-              <h2>About Us</h2>
-              <h3><span>Three Studio</span> - Surabaya Professional Photography Service</h3>
-              <p>Three Studio merupakan sebuah usaha jasa yang bergerak dibidang layanan video, foto, fotografi, dan studio foto. Usaha ini dibangun semenjak Juni 2019 oleh mahasiswa Petra diperuntukan sebagai dummy dalam sebuah tugas project Aplikasi Mobile Berbasis Web. Usaha kami didukung oleh para fotografer surabaya dan juru kamera yang handal dibidangnya masing-masing.</p>
-              <p>Usaha ini dibangun tidak semata-mata untuk mencari materi dan menyalurkan hobi dibidang seni fotografy, namun diperuntukan untuk nilai tugas kami.</p>
+
+            <div class="col-lg-7 col-md-6">
+              <div class="about-content">
+                <h2>About Us</h2>
+                <h3><span>Three Studio</span> - <br>Surabaya Professional Photography Service</h3>
+                <p>Three Studio merupakan sebuah usaha jasa yang bergerak dibidang layanan video, foto, fotografi, dan studio foto. Usaha ini dibangun semenjak Juni 2019 oleh mahasiswa Petra diperuntukan sebagai dummy dalam sebuah tugas project Aplikasi Mobile Berbasis Web. Usaha kami didukung oleh para fotografer surabaya dan juru kamera yang handal dibidangnya masing-masing.</p>
+                <p>Usaha ini dibangun tidak semata-mata untuk mencari materi dan menyalurkan hobi dibidang seni fotografy, namun diperuntukan untuk nilai tugas kami.</p>
+              </ul>
             </div>
           </div>
         </div>
@@ -127,680 +194,637 @@
 
     <!--==========================
       Services Section
-    ============================-->
-    <section id="services" class="section-bg">
-      <div class="container">
+      ============================-->
+      <section id="services" class="section-bg">
+        <div class="container">
 
-        <header class="section-header">
-          <h3>Services</h3>
-          <p>Berikut adalah servis yang tersedia untuk saat ini</p>
-        </header>
+          <header class="section-header">
+            <h3>Services</h3>
+            <p>Beberapa Layanan yang disediakan oleh ThreeStudio adalah sebagai berikut.</p>
+          </header>
 
-        <div class="row">
+          <div class="row">
 
-          <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
-            <div class="box">
-              <div class="icon" style="background: #fceef3;"><i class="icon ion-ios-pizza-outline" style="color: #ff689b;"></i></div>
-              <h4 class="title"><a href="">Fashion Photography</a></h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+            <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+              <div class="box">
+                <div class="icon" style="background: #fceef3;"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
+                <h4 class="title"><a href="">Fashion Photography</a></h4>
+                <p class="description">Fashion Photography merupakan pelayanan yang disediakan oleh ThreeStudio untuk para customer yang ingen melakukan photo dengan pakaian yang kekinian.</p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
-            <div class="box">
-              <div class="icon" style="background: #fff0da;"><i class="icon ion-ios-pizza-outline" style="color: #e98e06;"></i></div>
-              <h4 class="title"><a href="">Food Photography</a></h4>
-              <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+            <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+              <div class="box">
+                <div class="icon" style="background: #fff0da;"><i class="ion-ios-bookmarks-outline" style="color: #e98e06;"></i></div>
+                <h4 class="title"><a href="">Food Photography</a></h4>
+                <p class="description">Food Photography merupakan pelayanan yang disediakan oleh ThreeStudio untuk para customer yang ingen melakukan photo di tempat makan yang keren dan kekinian.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
-            <div class="box">
-              <div class="icon" style="background: #e6fdfc;"><i class="ion-ios-book" style="color: #3fcdc7;"></i></div>
-              <h4 class="title"><a href="">Journalism Photography</a></h4>
-              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+            <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+              <div class="box">
+                <div class="icon" style="background: #e6fdfc;"><i class="ion-ios-paper-outline" style="color: #3fcdc7;"></i></div>
+                <h4 class="title"><a href="">Journalism Photography</a></h4>
+                <p class="description">Journalism Photography merupakan pelayanan yang disediakan oleh ThreeStudio untuk para customer yang ingen melakukan photo di tempat-tempat yang keren dan kekinian.</p>
+              </div>
             </div>
           </div>
         </div>
-
-      </div>
-    </section><!-- #services -->
+      </section><!-- #services -->
 
     <!--==========================
       Why Us Section
-    ============================-->
-    <section id="why-us" class="wow fadeIn">
-      <div class="container-fluid">
-        
-        <header class="section-header">
-          <h3>Why choose us?</h3>
-          <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus.</p>
-        </header>
+      ============================-->
+      <section id="why-us" class="wow fadeIn">
+        <div class="container-fluid">
 
-        <div class="row">
+          <header class="section-header">
+            <h3>Why choose us?</h3>
+            <p>Alasan customer memilih kami karena kami menyediakan beberapa hal seperti :</p>
+          </header>
 
-          <div class="col-lg-6">
-            <div class="why-us-img">
-              <img src="img/why-us.jpg" alt="" class="img-fluid">
+          <div class="row">
+
+            <div class="col-lg-6">
+              <div class="why-us-img">
+                <img src="img/why-us.jpg" alt="" class="img-fluid">
+              </div>
             </div>
-          </div>
 
-          <div class="col-lg-6">
-            <div class="why-us-content">
-              <p>Molestiae omnis numquam corrupti omnis itaque. Voluptatum quidem impedit. Odio dolorum exercitationem est error omnis repudiandae ad dolorum sit.</p>
-              <p>
-                Explicabo repellendus quia labore. Non optio quo ea ut ratione et quaerat. Porro facilis deleniti porro consequatur
-                et temporibus. Labore est odio.
+            <div class="col-lg-6">
+              <div class="why-us-content">
+                <p>Three Studio sudah cukup dikenal oleh banyak kalangan.</p>
+                <p>
+                  Beberapa hal yang membuat Three Studio menjadi terkenal dan banyak dicari oleh para customer adalah seperti berikut ini :
+                </p>
 
-                Odio omnis saepe qui. Veniam eaque ipsum. Ea quia voluptatum quis explicabo sed nihil repellat..
-              </p>
+                <div class="features wow bounceInUp clearfix">
+                  <i class="fa fa-diamond" style="color: #f058dc;"></i>
+                  <h4>Harga yang Terjangkau</h4>
+                  <p>Dengan harga dibawah 1 juta kita bisa merasakan sensa berfoto dengan photografer yang terkenal dan berpengalaman.</p>
+                </div>
 
-              <div class="features wow bounceInUp clearfix">
-                <i class="fa fa-diamond" style="color: #f058dc;"></i>
-                <h4>Corporis dolorem</h4>
-                <p>Commodi quia voluptatum. Est cupiditate voluptas quaerat officiis ex alias dignissimos et ipsum. Soluta at enim modi ut incidunt dolor et.</p>
+                <div class="features wow bounceInUp clearfix">
+                  <i class="fa fa-object-group" style="color: #ffb774;"></i>
+                  <h4>Paket Foto yang jelas dan menarik</h4>
+                  <p>Paket - paket yang teredia sangat jelas dan sesuai kebutuhan customer pada umumnya, sehingga saat melakukan pemesanan customer tidak perlu bingung.</p>
+                </div>
+                
+                <div class="features wow bounceInUp clearfix">
+                  <i class="fa fa-language" style="color: #589af1;"></i>
+                  <h4>Hasil yang memuaskan</h4>
+                  <p>Dengan pengalaman dan jam terbang yang tinggi hasil dari foto yang dilakukan tidak akan mengecewakan para customer, tetap para customer malah akan semakin tertarik untuk memesan lagi.</p>
+                </div>
+                
               </div>
 
-              <div class="features wow bounceInUp clearfix">
-                <i class="fa fa-object-group" style="color: #ffb774;"></i>
-                <h4>Eum ut aspernatur</h4>
-                <p>Molestias eius rerum iusto voluptas et ab cupiditate aut enim. Assumenda animi occaecati. Quo dolore fuga quasi autem aliquid ipsum odit. Perferendis doloremque iure nulla aut.</p>
-              </div>
-              
-              <div class="features wow bounceInUp clearfix">
-                <i class="fa fa-language" style="color: #589af1;"></i>
-                <h4>Voluptates dolores</h4>
-                <p>Voluptates nihil et quis omnis et eaque omnis sint aut. Ducimus dolorum aspernatur. Totam dolores ut enim ullam voluptas distinctio aut.</p>
-              </div>
-              
             </div>
 
           </div>
 
         </div>
 
-      </div>
+        <div class="container">
+          <div class="row counters">
 
-      <div class="container">
-        <div class="row counters">
+            <div class="col-lg-3 col-6 text-center">
+              <span data-toggle="counter-up">274</span>
+              <p>Clients</p>
+            </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">274</span>
-            <p>Clients</p>
+            <div class="col-lg-3 col-6 text-center">
+              <span data-toggle="counter-up">421</span>
+              <p>Projects</p>
+            </div>
+
+            <div class="col-lg-3 col-6 text-center">
+              <span data-toggle="counter-up">1,364</span>
+              <p>Hours Of Support</p>
+            </div>
+
+            <div class="col-lg-3 col-6 text-center">
+              <span data-toggle="counter-up">18</span>
+              <p>Hard Workers</p>
+            </div>
+            
           </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">421</span>
-            <p>Projects</p>
-          </div>
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">1,364</span>
-            <p>Hours Of Support</p>
-          </div>
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">18</span>
-            <p>Hard Workers</p>
-          </div>
-  
         </div>
-
-      </div>
-    </section>
+      </section>
 
     <!--==========================
       Call To Action Section
-    ============================-->
-    <section id="call-to-action" class="wow fadeInUp">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-9 text-center text-lg-left">
-            <h3 class="cta-title">Call To Action</h3>
-            <p class="cta-text"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      ============================-->
+      <section id="call-to-action" class="wow fadeInUp">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-9 text-center text-lg-left">
+              <h3 class="cta-title">Call To Action</h3>
+              <p class="cta-text"> call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action.</p>
+            </div>
+            <div class="col-lg-3 cta-btn-container text-center">
+              <a class="cta-btn align-middle" href="#">Call To Action</a>
+            </div>
           </div>
-          <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="#">Call To Action</a>
-          </div>
+
         </div>
-
-      </div>
-    </section><!-- #call-to-action -->
-
-    <!--==========================
-      Features Section
-    ============================-->
-    <section id="features">
-      <div class="container">
-
-        <div class="row feature-item">
-          <div class="col-lg-6 wow fadeInUp">
-            <img src="img/features-1.svg" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-6 wow fadeInUp pt-5 pt-lg-0">
-            <h4>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h4>
-            <p>
-              Ipsum in aspernatur ut possimus sint. Quia omnis est occaecati possimus ea. Quas molestiae perspiciatis occaecati qui rerum. Deleniti quod porro sed quisquam saepe. Numquam mollitia recusandae non ad at et a.
-            </p>
-            <p>
-              Ad vitae recusandae odit possimus. Quaerat cum ipsum corrupti. Odit qui asperiores ea corporis deserunt veritatis quidem expedita perferendis. Qui rerum eligendi ex doloribus quia sit. Porro rerum eum eum.
-            </p>
-          </div>
-        </div>
-
-        <div class="row feature-item mt-5 pt-5">
-          <div class="col-lg-6 wow fadeInUp order-1 order-lg-2">
-            <img src="img/features-2.svg" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-6 wow fadeInUp pt-4 pt-lg-0 order-2 order-lg-1">
-            <h4>Neque saepe temporibus repellat ea ipsum et. Id vel et quia tempora facere reprehenderit.</h4>
-            <p>
-             Delectus alias ut incidunt delectus nam placeat in consequatur. Sed cupiditate quia ea quis. Voluptas nemo qui aut distinctio. Cumque fugit earum est quam officiis numquam. Ducimus corporis autem at blanditiis beatae incidunt sunt. 
-            </p>
-            <p>
-              Voluptas saepe natus quidem blanditiis. Non sunt impedit voluptas mollitia beatae. Qui esse molestias. Laudantium libero nisi vitae debitis. Dolorem cupiditate est perferendis iusto.
-            </p>
-            <p>
-              Eum quia in. Magni quas ipsum a. Quis ex voluptatem inventore sint quia modi. Numquam est aut fuga mollitia exercitationem nam accusantium provident quia.
-            </p>
-          </div>
-          
-        </div>
-
-      </div>
-    </section><!-- #about -->
+      </section>
 
     <!--==========================
       Portfolio Section
-    ============================-->
-    <section id="portfolio" class="section-bg">
-      <div class="container">
+      ============================-->
+      <section id="portfolio" class="section-bg">
+        <div class="container">
 
-        <header class="section-header">
-          <h3 class="section-title">Our Portfolio</h3>
-        </header>
+          <header class="section-header">
+            <h3 class="section-title">Our Portfolio</h3>
+          </header>
 
-        <div class="row">
-          <div class="col-lg-12">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">Fashion Photography</li>
-              <li data-filter=".filter-card">Food Photography</li>
-              <li data-filter=".filter-web">Journalism Photography</li>
-            </ul>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul id="portfolio-flters">
+                <li data-filter="*" class="filter-active">All</li>
+                <li data-filter=".filter-bye2017">bye2017</li>
+                <li data-filter=".filter-card">Food Photography</li>
+                <li data-filter=".filter-web">Journalism Photography</li>
+              </ul>
+            </div>
           </div>
+
+          <div class="row portfolio-container">
+            <?php foreach ($_portofolio as $key=>$photo) : ?>
+              <div class="col-lg-4 col-md-6 portfolio-item filter-<?php echo $photo->content_tags; ?>">
+                <div class="portfolio-wrap">
+                  <img src="<?php echo $photo->content_photos; ?>" class="img-fluid alt=">
+                  <div class="portfolio-info">
+                    <h4><a href="#"><?php echo $photo->content_tags; ?></a></h4>
+                    <p><?php echo $photo->content_tags; ?></p>
+                    <div>
+                      <a href="img/portfolio/fas1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
+                      <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach;?>
+            
+
+
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/fas1.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Fashion 1</a></h4>
+                  <p>Fashion</p>
+                  <div>
+                    <a href="img/portfolio/fas1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.1s">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/web3.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Web 3</a></h4>
+                  <p>Web</p>
+                  <div>
+                    <a href="img/portfolio/web3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app" data-wow-delay="0.2s">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/fas2.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Fashion 2</a></h4>
+                  <p>Fashion</p>
+                  <div>
+                    <a href="img/portfolio/fas2.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/card2.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Card 2</a></h4>
+                  <p>Card</p>
+                  <div>
+                    <a href="img/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.1s">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/web2.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Web 2</a></h4>
+                  <p>Web</p>
+                  <div>
+                    <a href="img/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app" data-wow-delay="0.2s">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/fas3.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Fashion 3</a></h4>
+                  <p>Fashion</p>
+                  <div>
+                    <a href="img/portfolio/fas3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/card1.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Card 1</a></h4>
+                  <p>Card</p>
+                  <div>
+                    <a href="img/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card" data-wow-delay="0.1s">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/card3.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Card 3</a></h4>
+                  <p>Card</p>
+                  <div>
+                    <a href="img/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.2s">
+              <div class="portfolio-wrap">
+                <img src="img/portfolio/web1.jpg" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                  <h4><a href="#">Web 1</a></h4>
+                  <p>Web</p>
+                  <div>
+                    <a href="img/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
-
-        <div class="row portfolio-container">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/fas1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Fashion 1</a></h4>
-                <p>Fashion</p>
-                <div>
-                  <a href="img/portfolio/fas1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/web3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Web 3</a></h4>
-                <p>Web</p>
-                <div>
-                  <a href="img/portfolio/web3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/fas2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Fashion 2</a></h4>
-                <p>Fashion</p>
-                <div>
-                  <a href="img/portfolio/fas2.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/card2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Card 2</a></h4>
-                <p>Card</p>
-                <div>
-                  <a href="img/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/web2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Web 2</a></h4>
-                <p>Web</p>
-                <div>
-                  <a href="img/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/fas3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Fashion 3</a></h4>
-                <p>Fashion</p>
-                <div>
-                  <a href="img/portfolio/fas3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/card1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Card 1</a></h4>
-                <p>Card</p>
-                <div>
-                  <a href="img/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card" data-wow-delay="0.1s">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/card3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Card 3</a></h4>
-                <p>Card</p>
-                <div>
-                  <a href="img/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.2s">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/web1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4><a href="#">Web 1</a></h4>
-                <p>Web</p>
-                <div>
-                  <a href="img/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
-                  <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- #portfolio -->
+      </section><!-- #portfolio -->
 
     <!--==========================
       Clients Section
-    ============================-->
-    <section id="testimonials">
-      <div class="container">
+      ============================-->
+      <section id="testimonials">
+        <div class="container">
 
-        <header class="section-header">
-          <h3>Testimonials</h3>
-        </header>
+          <header class="section-header">
+            <h3>Testimonials</h3>
+          </header>
 
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
 
-            <div class="owl-carousel testimonials-carousel wow fadeInUp">
-    
-              <div class="testimonial-item">
-                <img src="img/testimonial-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-                <p>
-                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                </p>
-              </div>
-    
-              <div class="testimonial-item">
-                <img src="img/testimonial-2.jpg" class="testimonial-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-                <p>
-                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                </p>
-              </div>
-    
-              <div class="testimonial-item">
-                <img src="img/testimonial-3.jpg" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-                <p>
-                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                </p>
-              </div>
-    
-              <div class="testimonial-item">
-                <img src="img/testimonial-4.jpg" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-                <p>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                </p>
-              </div>
+              <div class="owl-carousel testimonials-carousel wow fadeInUp">
 
+                <div class="testimonial-item">
+                  <img src="img/testimonial-1.jpg" class="testimonial-img" alt="">
+                  <h3>Zachary Osborn</h3>
+                  <h4>Ceo &amp; Founder</h4>
+                  <p>
+                    Ga ada Obat.
+                  </p>
+                </div>
+                
+                <div class="testimonial-item">
+                  <img src="img/testimonial-2.jpg" class="testimonial-img" alt="">
+                  <h3>Nicky Ong</h3>
+                  <h4>Designer</h4>
+                  <p>
+                    Bakal Pesen Lagi.
+                  </p>
+                </div>
+                
+                <div class="testimonial-item">
+                  <img src="img/testimonial-3.jpg" class="testimonial-img" alt="">
+                  <h3>Alexander</h3>
+                  <h4>Store Owner</h4>
+                  <p>
+                    Nagihhh banget.
+                  </p>
+                </div>
+                
+                <div class="testimonial-item">
+                  <img src="img/testimonial-4.jpg" class="testimonial-img" alt="">
+                  <h3>Kevin Oktov</h3>
+                  <h4>Freelancer</h4>
+                  <p>
+                    Keren Parah.
+                  </p>
+                </div>
+              </div>
             </div>
-
           </div>
         </div>
-
-
-      </div>
-    </section><!-- #testimonials -->
+      </section><!-- #testimonials -->
 
     <!--==========================
       Team Section
-    ============================-->
-    <section id="team" class="section-bg">
-      <div class="container">
-        <div class="section-header">
-          <h3>Team</h3>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+      ============================-->
+      <section id="team" class="section-bg">
+        <div class="container">
+          <div class="section-header">
+            <h3>Team</h3>
+            <p>team dalam ThreeStudio ini adalah berikut ini :</p>
+          </div>
+
+          <div class="row">
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp">
+              <div class="member">
+                <img src="img/team-1.jpg" class="img-fluid" alt="">
+                <div class="member-info">
+                  <div class="member-info-content">
+                    <h4>Lucky Alexandre</h4>
+                    <span>Chief Executive Officer</span>
+                    <div class="social">
+                      <a href=""><i class="fa fa-twitter"></i></a>
+                      <a href=""><i class="fa fa-facebook"></i></a>
+                      <a href=""><i class="fa fa-google-plus"></i></a>
+                      <a href=""><i class="fa fa-linkedin"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="member">
+                <img src="img/team-2.jpg" class="img-fluid" alt="">
+                <div class="member-info">
+                  <div class="member-info-content">
+                    <h4>Michael C. Wujaya</h4>
+                    <span>Product Manager</span>
+                    <div class="social">
+                      <a href=""><i class="fa fa-twitter"></i></a>
+                      <a href=""><i class="fa fa-facebook"></i></a>
+                      <a href=""><i class="fa fa-google-plus"></i></a>
+                      <a href=""><i class="fa fa-linkedin"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+              <div class="member">
+                <img src="img/team-3.jpg" class="img-fluid" alt="">
+                <div class="member-info">
+                  <div class="member-info-content">
+                    <<<<<<< HEAD
+                    <h4>Riscky M. Mailoa</h4>
+                    =======
+                    <h4>Rescky M. Mailoa</h4>
+                    >>>>>>> c67f8285d60d9bf179ca71a1d16a6803fd4deb8d
+                    <span>CTO</span>
+                    <div class="social">
+                      <a href=""><i class="fa fa-twitter"></i></a>
+                      <a href=""><i class="fa fa-facebook"></i></a>
+                      <a href=""><i class="fa fa-google-plus"></i></a>
+                      <a href=""><i class="fa fa-linkedin"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-
-        <div class="row">
-
-          <div class="col-lg-4 col-md-6 wow fadeInUp">
-            <div class="member">
-              <img src="img/team-1.jpg" class="img-fluid" alt="">
-              <div class="member-info">
-                <div class="member-info-content">
-                  <h4>Lucky Alexandre</h4>
-                  <span>Chief Executive Officer</span>
-                  <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="member">
-              <img src="img/team-2.jpg" class="img-fluid" alt="">
-              <div class="member-info">
-                <div class="member-info-content">
-                  <h4>Michael C. Wujaya</h4>
-                  <span>Product Manager</span>
-                  <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="member">
-              <img src="img/team-3.jpg" class="img-fluid" alt="">
-              <div class="member-info">
-                <div class="member-info-content">
-                  <h4>Riscky M. Mailoa</h4>
-                  <span>CTO</span>
-                  <div class="social">
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-google-plus"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- #team -->
+      </section><!-- #team -->
 
     <!--==========================
       Clients Section
-    ============================-->
-    <section id="clients" class="wow fadeInUp">
-      <div class="container">
+      ============================-->
+      <section id="clients" class="wow fadeInUp">
+        <div class="container">
 
-        <header class="section-header">
-          <h3>Our Clients</h3>
-        </header>
+          <header class="section-header">
+            <h3>Our Clients</h3>
+          </header>
 
-        <div class="owl-carousel clients-carousel">
-          <img src="img/clients/client-1.png" alt="">
-          <img src="img/clients/client-2.png" alt="">
-          <img src="img/clients/client-3.png" alt="">
-          <img src="img/clients/client-4.png" alt="">
-          <img src="img/clients/client-5.png" alt="">
-          <img src="img/clients/client-6.png" alt="">
-          <img src="img/clients/client-7.png" alt="">
-          <img src="img/clients/client-8.png" alt="">
+          <div class="owl-carousel clients-carousel">
+            <img src="img/clients/client-1.png" alt="">
+            <img src="img/clients/client-2.png" alt="">
+            <img src="img/clients/client-3.png" alt="">
+            <img src="img/clients/client-4.png" alt="">
+            <img src="img/clients/client-5.png" alt="">
+            <img src="img/clients/client-6.png" alt="">
+            <img src="img/clients/client-7.png" alt="">
+            <img src="img/clients/client-8.png" alt="">
+          </div>
+
         </div>
-
-      </div>
-    </section><!-- #clients -->
+      </section><!-- #clients -->
 
 
     <!--==========================
       Pricing Section
-    ============================-->
-    <section id="pricing" class="wow fadeInUp section-bg">
+      ============================-->
+      <section id="pricing" class="wow fadeInUp section-bg">
 
-      <div class="container">
+        <div class="container">
 
-        <header class="section-header">
-          <h3>Pricing</h3>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
-        </header>
+          <header class="section-header">
+            <h3>Pricing</h3>
+            <p>Harga Paket untuk ThreeStudio Foto</p>
+          </header>
 
-        <div class="row flex-items-xs-middle flex-items-xs-center">
-      
-          <!-- Basic Plan  -->
-          <div class="col-xs-12 col-lg-4">
-            <div class="card">
-              <div class="card-header">
-                <h3><span class="currency">$</span>19<span class="period">/month</span></h3>
-              </div>
-              <div class="card-block">
-                <h4 class="card-title"> 
-                  Basic Plan
-                </h4>
-                <ul class="list-group">
-                  <li class="list-group-item">Odio animi voluptates</li>
-                  <li class="list-group-item">Inventore quisquam et</li>
-                  <li class="list-group-item">Et perspiciatis suscipit</li>
-                  <li class="list-group-item">24/7 Support System</li>
-                </ul>
-                <a href="#" class="btn">Choose Plan</a>
+          <div class="row flex-items-xs-middle flex-items-xs-center">
+
+            <!-- Basic Plan  -->
+            <div class="col-xs-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3><span class="currency">IDR</span>250k<span class="period"></span></h3>
+                </div>
+                <div class="card-block">
+                  <h4 class="card-title"> 
+                    1. Fashion <br>Photography
+                  </h4>
+                </div>
               </div>
             </div>
-          </div>
-      
-          <!-- Regular Plan  -->
-          <div class="col-xs-12 col-lg-4">
-            <div class="card">
-              <div class="card-header">
-                <h3><span class="currency">$</span>29<span class="period">/month</span></h3>
-              </div>
-              <div class="card-block">
-                <h4 class="card-title"> 
-                  Regular Plan
-                </h4>
-                <ul class="list-group">
-                  <li class="list-group-item">Odio animi voluptates</li>
-                  <li class="list-group-item">Inventore quisquam et</li>
-                  <li class="list-group-item">Et perspiciatis suscipit</li>
-                  <li class="list-group-item">24/7 Support System</li>
-                </ul>
-                <a href="#" class="btn">Choose Plan</a>
+            
+            <!-- Regular Plan  -->
+            <div class="col-xs-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3><span class="currency">IDR</span>500k<span class="period"></span></h3>
+                </div>
+                <div class="card-block">
+                  <h4 class="card-title"> 
+                    2. Food <br>Photography
+                  </h4>
+                </div>
               </div>
             </div>
-          </div>
-      
-          <!-- Premium Plan  -->
-          <div class="col-xs-12 col-lg-4">
-            <div class="card">
-              <div class="card-header">
-                <h3><span class="currency">$</span>39<span class="period">/month</span></h3>
-              </div>
-              <div class="card-block">
-                <h4 class="card-title"> 
-                  Premium Plan
-                </h4>
-                <ul class="list-group">
-                  <li class="list-group-item">Odio animi voluptates</li>
-                  <li class="list-group-item">Inventore quisquam et</li>
-                  <li class="list-group-item">Et perspiciatis suscipit</li>
-                  <li class="list-group-item">24/7 Support System</li>
-                </ul>
-                <a href="#" class="btn">Choose Plan</a>
+            
+            <!-- Premium Plan  -->
+            <div class="col-xs-12 col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3><span class="currency">IDR</span>750k<span class="period"></span></h3>
+                </div>
+                <div class="card-block">
+                  <h4 class="card-title"> 
+                    3. Journalism <br>Photography
+                  </h4>
+                </div>
               </div>
             </div>
+
+            <!-- WEB WORKER -->
+            <form>
+              <div>
+                <br>
+                <label for="number1">Jenis Paket : </label>    
+                <input type="text" class="form-control jarak" id="number1" value="0">
+              </div>
+              <div>
+                <label for="number2">Lama Sewa  : </label>   
+                <input type="text" class="form-control jarak" id="number2" value="0">
+              </div>
+              <div>
+                <p class="result">Rp. 0</p>
+              </div>
+            </form>
           </div>
-      
+          <script src="main.js"></script>
         </div>
-      </div>
+      </section>
 
-    </section><!-- #pricing -->
 
-    <!--==========================
+
+    <!--=============================
       Frequently Asked Questions Section
-    ============================-->
-    <section id="faq">
-      <div class="container">
-        <header class="section-header">
-          <h3>Frequently Asked Questions</h3>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
-        </header>
+      ==============================-->
+      <section id="faq">
+        <div class="container">
+          <header class="section-header">
+            <h3>Frequently Asked Questions</h3>
+            <p>Pertanyaan yang sering ditanyakan.</p>
+          </header>
 
-        <ul id="faq-list" class="wow fadeInUp">
-          <li>
-            <a data-toggle="collapse" class="collapsed" href="#faq1">Non consectetur a erat nam at lectus urna duis? <i class="ion-android-remove"></i></a>
-            <div id="faq1" class="collapse" data-parent="#faq-list">
-              <p>
-                Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
-              </p>
-            </div>
-          </li>
+          <ul id="faq-list" class="wow fadeInUp">
+            <li>
+              <a data-toggle="collapse" class="collapsed" href="#faq1">Berapa harga paket yang tersedia? <i class="ion-android-remove"></i></a>
+              <div id="faq1" class="collapse" data-parent="#faq-list">
+                <p>
+                  Liat di Pricing.
+                </p>
+              </div>
+            </li>
 
-          <li>
-            <a data-toggle="collapse" href="#faq2" class="collapsed">Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque? <i class="ion-android-remove"></i></a>
-            <div id="faq2" class="collapse" data-parent="#faq-list">
-              <p>
-                Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
-              </p>
-            </div>
-          </li>
+            <li>
+              <a data-toggle="collapse" href="#faq2" class="collapsed">Siapa saja anggota kelompok? <i class="ion-android-remove"></i></a>
+              <div id="faq2" class="collapse" data-parent="#faq-list">
+                <p>
+                  Liat di Team.
+                </p>
+              </div>
+            </li>
 
-          <li>
-            <a data-toggle="collapse" href="#faq3" class="collapsed">Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi? <i class="ion-android-remove"></i></a>
-            <div id="faq3" class="collapse" data-parent="#faq-list">
-              <p>
-                Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
-              </p>
-            </div>
-          </li>
+            <li>
+              <a data-toggle="collapse" href="#faq3" class="collapsed">Untuk apa web ini dibuat? <i class="ion-android-remove"></i></a>
+              <div id="faq3" class="collapse" data-parent="#faq-list">
+                <p>
+                 Liat di About US.
+               </p>
+             </div>
+           </li>
 
-          <li>
-            <a data-toggle="collapse" href="#faq4" class="collapsed">Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla? <i class="ion-android-remove"></i></a>
+           <li>
+            <a data-toggle="collapse" href="#faq4" class="collapsed">Service apa saja yang disediakan? <i class="ion-android-remove"></i></a>
             <div id="faq4" class="collapse" data-parent="#faq-list">
               <p>
-                Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                Liat di Service.
               </p>
             </div>
           </li>
 
           <li>
-            <a data-toggle="collapse" href="#faq5" class="collapsed">Tempus quam pellentesque nec nam aliquam sem et tortor consequat? <i class="ion-android-remove"></i></a>
+            <a data-toggle="collapse" href="#faq5" class="collapsed">Dimana kita bisa melihat ulasan customer sebelumnya? <i class="ion-android-remove"></i></a>
             <div id="faq5" class="collapse" data-parent="#faq-list">
               <p>
-                Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
+                Liat di Testimonials.
               </p>
             </div>
           </li>
 
           <li>
-            <a data-toggle="collapse" href="#faq6" class="collapsed">Tortor vitae purus faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i class="ion-android-remove"></i></a>
+            <a data-toggle="collapse" href="#faq6" class="collapsed">Dimana kita bisa malakukan pemesanan paket? <i class="ion-android-remove"></i></a>
             <div id="faq6" class="collapse" data-parent="#faq-list">
               <p>
-                Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque. Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus. Nibh tellus molestie nunc non blandit massa enim nec.
+                Liat di Contact US
               </p>
             </div>
           </li>
-
         </ul>
-
       </div>
-    </section><!-- #faq -->
-
+    </section>
   </main>
 
   <!--==========================
     Footer
-  ============================-->
-  <footer id="footer" class="section-bg">
-    <div class="footer-top">
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-lg-6">
-
-            <div class="row">
-
+    ============================-->
+    <footer id="footer" class="section-bg">
+      <div class="footer-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="row">
                 <div class="col-sm-6">
-
                   <div class="footer-info">
-                    <h3>Rapid</h3>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
+                    <h2>ThreeStudio</h2>
+                    <p>sering-sering kunjungi ThreeStudio yaa. kami memiliki paket yang bagus dan menarik, photographer yang terkenal dan punya jam terbang yang tinggi.</p>
                   </div>
 
                   <div class="footer-newsletter">
                     <h4>Our Newsletter</h4>
-                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem.</p>
+                    <p>sering-sering kunjungi ThreeStudio yaa. kami memiliki paket yang bagus dan menarik, photographer yang terkenal dan punya jam terbang yang tinggi. kami juga punya rekomendasi tempat-tempat yang menarik loohhhhh.</p>
                     <form action="" method="post">
-                      <input type="email" name="email"><input type="submit"  value="Subscribe">
+                      <input type="email" name="email"><input type="submit" tabindex="0" value="Subscribe">
                     </form>
                   </div>
-
                 </div>
 
                 <div class="col-sm-6">
@@ -818,104 +842,199 @@
                   <div class="footer-links">
                     <h4>Contact Us</h4>
                     <p>
-                      A108 Adam Street <br>
-                      New York, NY 535022<br>
-                      United States <br>
-                      <strong>Phone:</strong> +1 5589 55488 55<br>
-                      <strong>Email:</strong> info@example.com<br>
+                      Siwalankerto 8 <br>
+                      Surabaya, Jawa Timur<br>
+                      Indonesia <br>
+                      <strong>Phone : </strong> +62 811 2345 6789<br>
+                      <strong>Email : </strong> info@example.com<br>
                     </p>
                   </div>
-
                   <div class="social-links">
                     <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
                     <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
                     <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
                     <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
                   </div>
-
                 </div>
-
+              </div>
             </div>
 
-          </div>
+            <div class="col-lg-6">
+              <div class="form">
+                <h4>Send us a message</h4>
+                <p>Kirim kami kritik dan saran kami kesepian.</p>
+                <form action="" method="post" role="form" class="contactForm">
+                  <div class="form-group">
+                    <input type="text" name="name" tabindex="4s" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="form-group">
+                    <input type="email" tabindex="1" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" tabindex="2" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="form-group">
+                    <textarea class="form-control" tabindex="3" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                    <div class="validation"></div>
+                  </div>
 
-          <div class="col-lg-6">
+                  <div id="sendmessage">Your message has been sent. Thank you!</div>
+                  <div id="errormessage"></div>
 
-            <div class="form">
-              
-              <h4>Send us a message</h4>
-              <p>Eos ipsa est voluptates. Nostrum nam libero ipsa vero. Debitis quasi sit eaque numquam similique commodi harum aut temporibus.</p>
-              <form action="" method="post" role="form" class="contactForm">
-                <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                  <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                  <div class="validation"></div>
-                </div>
-                <div class="form-group">
-                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                  <div class="validation"></div>
-                </div>
-
-                <div id="sendmessage">Your message has been sent. Thank you!</div>
-                <div id="errormessage"></div>
-
-                <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
-              </form>
+                  <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+                </form>
+              </div>
             </div>
-
           </div>
-
-          
-
         </div>
-
       </div>
-    </div>
 
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong>Rapid</strong>. All Rights Reserved
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong>ThreeStudio</strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">ThreeStudio</a>
+        </div>
       </div>
-      <div class="credits">
-        <!--
-          All the links in the footer should remain intact.
-          You can delete the links only if you purchased the pro version.
-          Licensing information: https://bootstrapmade.com/license/
-          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Rapid
-        -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-  </footer><!-- #footer -->
+    </footer><!-- #footer -->
 
-  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-  <!-- Uncomment below i you want to use a preloader -->
-  <!-- <div id="preloader"></div> -->
+    <script>
+      if ('serviceWorker' in navigator) { 
+        window.addEventListener('load', () => { 
+         navigator.serviceWorker.register('service-worker.js')
+         .then((reg) => { 
+          console.log('Service worker registered.', reg);
+        })
+       })
+      };
+    </script>
 
-  <!-- JavaScript Libraries -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/jquery/jquery-migrate.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/mobile-nav/mobile-nav.js"></script>
-  <script src="lib/wow/wow.min.js"></script>
-  <script src="lib/waypoints/waypoints.min.js"></script>
-  <script src="lib/counterup/counterup.min.js"></script>
-  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-  <script src="lib/isotope/isotope.pkgd.min.js"></script>
-  <script src="lib/lightbox/js/lightbox.min.js"></script>
-  <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script>
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <!-- Uncomment below i you want to use a preloader -->
+    <!-- <div id="preloader"></div> -->
 
-  <!-- Template Main Javascript File -->
-  <script src="js/main.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/jquery/jquery-migrate.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/mobile-nav/mobile-nav.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <!-- Contact Form JavaScript File -->
+    <script src="contactform/contactform.js"></script>
 
-</body>
-</html>
+    <!-- Template Main Javascript File -->
+
+    <script>
+      let deferredPrompt;
+      let btnAdd = document.querySelector('.install_app');
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        btnAdd.style.display = 'block';
+      });
+
+      btnAdd.addEventListener('click', (e) => {
+        btnAdd.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice
+        .then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the A2HS prompt');
+          } else {
+            console.log('User dismissed the A2HS prompt');
+          }
+          deferredPrompt = null;
+        });
+      });
+    </script>
+
+    <script>
+      $("#notify-button").click(function(){
+        Push.create("Welcome!",{
+          body: "Three Studio",
+          icon: '/asd.jpg',
+          timeout: 2000,
+          onClick: function () {
+            window.focus();
+            this.close();
+          }
+        });
+      });
+      $("#clear-button").click(function(){ 
+       Push.clear();
+     });
+      $("#check-button").click(function(){ 
+        console.log(Push.Permission.has());
+      });
+    </script>
+    <script>
+      $("#notify-button2").click(function(){
+        Push.create("Welcome!",{
+          body: "Three Studio",
+          icon: '/asd.jpg',
+          timeout: 2000,
+          onClick: function () {
+            window.focus();
+            this.close();
+          }
+        });
+      });
+      $("#clear-button").click(function(){ 
+       Push.clear();
+     });
+      $("#check-button").click(function(){ 
+        console.log(Push.Permission.has());
+      });
+    </script>
+    <script>
+      $("#notify-button3").click(function(){
+        Push.create("Welcome!",{
+          body: "Three Studio",
+          icon: '/asd.jpg',
+          timeout: 2000,
+          onClick: function () {
+            window.focus();
+            this.close();
+          }
+        });
+      });
+      $("#clear-button").click(function(){ 
+       Push.clear();
+     });
+      $("#check-button").click(function(){ 
+        console.log(Push.Permission.has());
+      });
+    </script>
+    <script>
+      $("#notify-button4").click(function(){
+        Push.create("Welcome!",{
+          body: "Three Studio",
+          icon: '/asd.jpg',
+          timeout: 2000,
+          onClick: function () {
+            window.focus();
+            this.close();
+          }
+        });
+      });
+      $("#clear-button").click(function(){ 
+       Push.clear();
+     });
+      $("#check-button").click(function(){ 
+        console.log(Push.Permission.has());
+      });
+    </script>
+    <script src="js/main.js"></script>
+
+  </body>
+  </html>

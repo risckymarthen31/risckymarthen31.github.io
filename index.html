@@ -1,40 +1,3 @@
-<?php
-
-function get_CURL($url)
-{
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_URL, $url);
-  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-  $result = curl_exec($curl);
-  curl_close($curl);
-
-  return json_decode($result, true);
-}
-
-//Instagram API
-$clientID = '1731dfd6ae5b4236b1c0791a550e344a';
-$accessToken = '1820664604.1731dfd.fb778f67629f404c827d8efa41347aec';
-
-$result = get_CURL('https://api.instagram.com/v1/users/self/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec');
-
-$usernameIG = $result['data']['username'];
-$profilePicIG = $result['data']['profile_picture'];
-$followersIG = $result['data']['counts']['followed_by'];
-
-
-
-
-
-//latest IG post
-$result = get_CURL('https://api.instagram.com/v1/users/self/media/recent/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec&count=2');
-
-$photos = [];
-foreach ($result['data'] as $photo) {
-$photos[] = $photo['images']['standard_resolution']['url'];
-}
-//var_dump($photos);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -162,13 +125,11 @@ $photos[] = $photo['images']['standard_resolution']['url'];
           <div class="row">
 
             <div class="col-lg-5 col-md-6">
-              <div class="about-img photo">
-
-                <!-- <?php foreach ($photos as $photo) : ?>
-                <img src="<?= $photo; ?>">
-                <?php endforeach;?> -->
+              <div class="about-img">
+                <img src="img/about-img-studio.jpg" alt="">
               </div>
             </div>
+
 
             <div class="col-lg-7 col-md-6">
               <div class="about-content">
@@ -310,13 +271,7 @@ $photos[] = $photo['images']['standard_resolution']['url'];
       <section id="call-to-action" class="wow fadeInUp">
         <div class="container">
           <div class="row">
-            <div class="col-lg-9 text-center text-lg-left">
-              <h3 class="cta-title">Call To Action</h3>
-              <p class="cta-text"> call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action call to action.</p>
-            </div>
-            <div class="col-lg-3 cta-btn-container text-center">
-              <a class="cta-btn align-middle" href="#">Call To Action</a>
-            </div>
+
           </div>
 
         </div>
@@ -336,29 +291,22 @@ $photos[] = $photo['images']['standard_resolution']['url'];
             <div class="col-lg-12">
               <ul id="portfolio-flters">
                 <li data-filter="*" class="filter-active">All</li>
-                <li data-filter=".filter-app">Fashion Photography</li>
+                <li data-filter=".filter-bye2017">bye2017</li>
                 <li data-filter=".filter-card">Food Photography</li>
                 <li data-filter=".filter-web">Journalism Photography</li>
               </ul>
             </div>
           </div>
 
-          <div class="row portfolio-container">
-
+          <div class="row portfolio-container portofolio_photos">
             <div class="col-lg-4 col-md-6 portfolio-item filter-app">
               <div class="portfolio-wrap">
-
-                <?php foreach ($photos as $photo) : ?>
-                <img src="<?= $photo; ?>" class="img-fluid" alt="">
-                <?php endforeach;?>
-
+                <img src="img/portfolio/fas1.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
                   <h4><a href="#">Fashion 1</a></h4>
                   <p>Fashion</p>
                   <div>
-                    <?php foreach ($photos as $photo) : ?>
-                    <a href="<?= $photo; ?>" data-lightbox="portfolio" data-title="Fashion 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
-                    <?php endforeach;?>
+                    <a href="img/portfolio/fas1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -367,12 +315,12 @@ $photos[] = $photo['images']['standard_resolution']['url'];
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.1s">
               <div class="portfolio-wrap">
-                <img src="img/portfolio/jour3.jpg" class="img-fluid" alt="">
+                <img src="img/portfolio/web3.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
-                  <h4><a href="#">Journalism 3</a></h4>
-                  <p>Journalism</p>
+                  <h4><a href="#">Web 3</a></h4>
+                  <p>Web</p>
                   <div>
-                    <a href="img/portfolio/jour3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Journalism 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/web3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -386,7 +334,7 @@ $photos[] = $photo['images']['standard_resolution']['url'];
                   <h4><a href="#">Fashion 2</a></h4>
                   <p>Fashion</p>
                   <div>
-                    <a href="img/portfolio/fas2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Fashion 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/fas2.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -395,12 +343,12 @@ $photos[] = $photo['images']['standard_resolution']['url'];
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-card">
               <div class="portfolio-wrap">
-                <img src="img/portfolio/food2.jpg" class="img-fluid" alt="">
+                <img src="img/portfolio/card2.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
-                  <h4><a href="#">Food 2</a></h4>
-                  <p>Food</p>
+                  <h4><a href="#">Card 2</a></h4>
+                  <p>Card</p>
                   <div>
-                    <a href="img/portfolio/food2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Food 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -409,12 +357,12 @@ $photos[] = $photo['images']['standard_resolution']['url'];
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.1s">
               <div class="portfolio-wrap">
-                <img src="img/portfolio/jour2.jpg" class="img-fluid" alt="">
+                <img src="img/portfolio/web2.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
-                  <h4><a href="#">Journalism 2</a></h4>
-                  <p>Journalism</p>
+                  <h4><a href="#">Web 2</a></h4>
+                  <p>Web</p>
                   <div>
-                    <a href="img/portfolio/jour2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Journalism 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -428,7 +376,7 @@ $photos[] = $photo['images']['standard_resolution']['url'];
                   <h4><a href="#">Fashion 3</a></h4>
                   <p>Fashion</p>
                   <div>
-                    <a href="img/portfolio/fas3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Fashion 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/fas3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -437,12 +385,12 @@ $photos[] = $photo['images']['standard_resolution']['url'];
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-card">
               <div class="portfolio-wrap">
-                <img src="img/portfolio/food1.jpg" class="img-fluid" alt="">
+                <img src="img/portfolio/card1.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
-                  <h4><a href="#">Food 1</a></h4>
-                  <p>Food</p>
+                  <h4><a href="#">Card 1</a></h4>
+                  <p>Card</p>
                   <div>
-                    <a href="img/portfolio/food1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Food 1" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -451,12 +399,12 @@ $photos[] = $photo['images']['standard_resolution']['url'];
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-card" data-wow-delay="0.1s">
               <div class="portfolio-wrap">
-                <img src="img/portfolio/food3.jpg" class="img-fluid" alt="">
+                <img src="img/portfolio/card3.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
-                  <h4><a href="#">Food 3</a></h4>
-                  <p>Food</p>
+                  <h4><a href="#">Card 3</a></h4>
+                  <p>Card</p>
                   <div>
-                    <a href="img/portfolio/food3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Food 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
@@ -465,20 +413,22 @@ $photos[] = $photo['images']['standard_resolution']['url'];
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-web" data-wow-delay="0.2s">
               <div class="portfolio-wrap">
-                <img src="img/portfolio/jour1.jpg" class="img-fluid" alt="">
+                <img src="img/portfolio/web1.jpg" class="img-fluid" alt="">
                 <div class="portfolio-info">
-                  <h4><a href="#">Journalism 1</a></h4>
-                  <p>Journalism</p>
+                  <h4><a href="#">Web 1</a></h4>
+                  <p>Web</p>
                   <div>
-                    <a href="img/portfolio/jour1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Journalism 1" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="img/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
+
         </div>
-      </section>
+      </section><!-- #portfolio -->
 
     <!--==========================
       Clients Section
@@ -914,36 +864,8 @@ $photos[] = $photo['images']['standard_resolution']['url'];
     <!-- Template Main Javascript File -->
 
     <script>
-      function createNode(element) {
-        return document.createElement(element);
-      }
-
-      function append(parent, el) {
-        return parent.appendChild(el);
-      }
-
-      const ul = document.getElementById('weather');
-      const url = 'https://api.instagram.com/v1/users/self/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec';
-      fetch(url)
-      .then((resp) => resp.json())
-      .then(function(data) {
-        console.log(data);
-        document.getElementById("weather").innerHTML=data.city.name;
-        var j="";
-        for (var i in data.list) {
-          j += "<li>"+data.list[i].main.temp+"</li>";
-        }
-        document.getElementById("info").innerHTML="<ul>"+j+"</ul>";
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    </script>
-
-    <script>
       let deferredPrompt;
       let btnAdd = document.querySelector('.install_app');
-
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -963,14 +885,40 @@ $photos[] = $photo['images']['standard_resolution']['url'];
           deferredPrompt = null;
         });
       });
+    </script>
 
+    <script>
+      const _count = 1;
+      const _url = 'https://api.instagram.com/v1/users/self/media/recent/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec&count='+_count;
+      fetch(_url)
+      .then((resp) => resp.json())
+      .then(function (data) {
+        for (var i = 0; i < _count; i++) {
+            const _tags = "tags"+i; //untuk key tags
+            const _iSrc = "src"+i;  //untuk key sources images
+
+            localStorage.setItem(_tags, data.data[i].tags[0]);
+            localStorage.setItem(_iSrc, data.data[i].images.standard_resolution.url);
+          }
+        })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+      var _html="";
+      for (var i = 0; i < _count; i++) {
+        const _tags = "tags"+i; //untuk key tags
+        const _iSrc = "src"+i;  //untuk key sources images
+        _html += "<div class='col-lg-4 col-md-6 portfolio-item filter-app'><div class='portfolio-wrap'><img src='"+localStorage.getItem(_iSrc)+"' class='img-fluid' alt=''><div class='portfolio-info'><h4><a href='#'>"+localStorage.getItem(_tags)+"</a></h4><p>"+localStorage.getItem(_tags)+"</p><div><a href='"+localStorage.getItem(_iSrc)+"' data-lightbox='portfolio' data-title='"+localStorage.getItem(_tags)+"' class='link-preview' title='Preview'><i class='ion ion-eye'></i></a><a href='#' class='link-details' title='More Details'><i class='ion ion-android-open'></i></a></div></div></div></div>";
+      }
+      document.getElementById("portofolio_photos").innerHTML = _html;
     </script>
 
     <script>
       $("#notify-button").click(function(){
         Push.create("Welcome!",{
           body: "Three Studio",
-          icon: '/asd.jpg',
+          icon: 'image.png',
           timeout: 2000,
           onClick: function () {
             window.focus();
@@ -989,7 +937,7 @@ $photos[] = $photo['images']['standard_resolution']['url'];
       $("#notify-button2").click(function(){
         Push.create("Welcome!",{
           body: "Three Studio",
-          icon: '/asd.jpg',
+          icon: 'image.png',
           timeout: 2000,
           onClick: function () {
             window.focus();
@@ -1008,7 +956,7 @@ $photos[] = $photo['images']['standard_resolution']['url'];
       $("#notify-button3").click(function(){
         Push.create("Welcome!",{
           body: "Three Studio",
-          icon: '/asd.jpg',
+          icon: 'image.png',
           timeout: 2000,
           onClick: function () {
             window.focus();
@@ -1027,7 +975,7 @@ $photos[] = $photo['images']['standard_resolution']['url'];
       $("#notify-button4").click(function(){
         Push.create("Welcome!",{
           body: "Three Studio",
-          icon: '/asd.jpg',
+          icon: 'image.png',
           timeout: 2000,
           onClick: function () {
             window.focus();
