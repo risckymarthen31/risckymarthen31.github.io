@@ -1,4 +1,4 @@
-const FILES_TO_CACHE = [ '_index.html'];
+const FILES_TO_CACHE = [ 'offline.html'];
 const CACHE_NAME="namaCache";
 self.addEventListener('activate', (evt) => {
 
@@ -22,7 +22,7 @@ self.addEventListener('fetch', (evt) => {
     .catch(() => { 
       return caches.open(CACHE_NAME) 
       .then((cache) => { 
-        return cache.match('_index.html'); 
+        return cache.match('offline.html'); 
       }); 
     }) 
     ); 
@@ -46,7 +46,7 @@ self.addEventListener('fetch', (evt) => {
     .catch(() => { 
       return caches.open(CACHE_NAME) 
       .then((cache) => { 
-        return cache.match('_index.html'); 
+        return cache.match('offline.html'); 
       }); 
     }) 
     ); 
