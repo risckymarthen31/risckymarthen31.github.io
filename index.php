@@ -30,7 +30,7 @@ $result = get_CURL('https://api.instagram.com/v1/users/self/media/recent/?access
 
 $photos = [];
 foreach ($result['data'] as $photo) {
-  $photos[] = $photo['images']['standard_resolution']['url'];
+$photos[] = $photo['images']['standard_resolution']['url'];
 }
 //var_dump($photos);
 ?>
@@ -162,10 +162,11 @@ foreach ($result['data'] as $photo) {
           <div class="row">
 
             <div class="col-lg-5 col-md-6">
-              <div class="about-img">
-                <?php foreach ($photos as $photo) : ?>
-                  <img src="<?= $photo; ?>">
-                <?php endforeach;?>
+              <div class="about-img photo">
+
+                <!-- <?php foreach ($photos as $photo) : ?>
+                <img src="<?= $photo; ?>">
+                <?php endforeach;?> -->
               </div>
             </div>
 
@@ -348,7 +349,7 @@ foreach ($result['data'] as $photo) {
               <div class="portfolio-wrap">
 
                 <?php foreach ($photos as $photo) : ?>
-                  <img src="<?= $photo; ?>" class="img-fluid" alt="">
+                <img src="<?= $photo; ?>" class="img-fluid" alt="">
                 <?php endforeach;?>
 
                 <div class="portfolio-info">
@@ -356,7 +357,7 @@ foreach ($result['data'] as $photo) {
                   <p>Fashion</p>
                   <div>
                     <?php foreach ($photos as $photo) : ?>
-                      <a href="<?= $photo; ?>" data-lightbox="portfolio" data-title="Fashion 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="<?= $photo; ?>" data-lightbox="portfolio" data-title="Fashion 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
                     <?php endforeach;?>
                     <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
                   </div>
@@ -911,6 +912,33 @@ foreach ($result['data'] as $photo) {
     <script src="contactform/contactform.js"></script>
 
     <!-- Template Main Javascript File -->
+
+    <script>
+      function createNode(element) {
+        return document.createElement(element);
+      }
+
+      function append(parent, el) {
+        return parent.appendChild(el);
+      }
+
+      const ul = document.getElementById('weather');
+      const url = 'https://api.instagram.com/v1/users/self/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec';
+      fetch(url)
+      .then((resp) => resp.json())
+      .then(function(data) {
+        console.log(data);
+        document.getElementById("weather").innerHTML=data.city.name;
+        var j="";
+        for (var i in data.list) {
+          j += "<li>"+data.list[i].main.temp+"</li>";
+        }
+        document.getElementById("info").innerHTML="<ul>"+j+"</ul>";
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    </script>
 
     <script>
       let deferredPrompt;
