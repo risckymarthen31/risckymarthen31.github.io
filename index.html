@@ -656,8 +656,8 @@
                     <p>sering-sering kunjungi ThreeStudio yaa. kami memiliki paket yang bagus dan menarik, photographer
                       yang terkenal dan punya jam terbang yang tinggi. kami juga punya rekomendasi tempat-tempat yang
                     menarik loohhhhh.</p>
-                    <form action="" method="post">
-                      <input type="email" name="email"><input type="submit" tabindex="0" value="Subscribe">
+                    <form action="" method="">
+                      <input type="email" name="email"><input type="submit" id="notify-message" tabindex="0" value="Subscribe">
                     </form>
                   </div>
                 </div>
@@ -796,6 +796,29 @@
         });
       });
     </script>
+
+
+    <script>
+      $("#notify-message").click(function () {
+        Push.create("Welcome!", {
+          body: "Three Studio",
+          icon: 'image.png',
+          timeout: 2000,
+          onClick: function () {
+            window.focus();
+            this.close();
+          }
+        });
+      });
+      $("#clear-button").click(function () {
+        Push.clear();
+      });
+      $("#check-button").click(function () {
+        console.log(Push.Permission.has());
+      });
+    </script>
+
+
 
     <script>
       $("#notify-button").click(function () {
