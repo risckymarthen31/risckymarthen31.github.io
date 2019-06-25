@@ -1,4 +1,4 @@
-const _count = 1;
+const _count = 5;
 const _url = 'https://api.instagram.com/v1/users/self/media/recent/?access_token=1820664604.1731dfd.fb778f67629f404c827d8efa41347aec&count=' + _count;
 fetch(_url)
     .then((resp) => resp.json())
