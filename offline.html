@@ -34,10 +34,20 @@
 <script src="push.js"></script>
 
 <style type="text/css">
-.tengah{
+.tengah {
   text-align: center;
+  margin-left: 15%;
+  margin-right:15%;
+  width: 70%;
 }
-.jarak{
+.tengah2 {
+  text-align: center;
+  margin-left: 15%;
+  margin-right:15%;
+  width: 75%;
+}
+
+.jarak {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -299,7 +309,7 @@
           </div>
 
           <div class="row portfolio-container" id="portofolio_photos">
-            
+
           </div>
         </section><!-- #portfolio -->
 
@@ -467,43 +477,42 @@
           </header>
 
           <div class="row flex-items-xs-middle flex-items-xs-center">
-
             <!-- Basic Plan  -->
-            <div class="col-xs-12 col-lg-4">
-              <div class="card">
+            <div class="col-xs-12 col-lg-4" onclick="plan_1()" >
+              <div class="card" id="plan1">
                 <div class="card-header">
                   <h3><span class="currency">IDR</span>250k<span class="period"></span></h3>
                 </div>
                 <div class="card-block">
-                  <h4 class="card-title"> 
+                  <h4 class="card-title">
                     1. Fashion <br>Photography
                   </h4>
                 </div>
               </div>
             </div>
-            
+
             <!-- Regular Plan  -->
-            <div class="col-xs-12 col-lg-4">
-              <div class="card">
+            <div class="col-xs-12 col-lg-4" onclick="plan_2()">
+              <div class="card" id="plan2">
                 <div class="card-header">
                   <h3><span class="currency">IDR</span>500k<span class="period"></span></h3>
                 </div>
                 <div class="card-block">
-                  <h4 class="card-title"> 
+                  <h4 class="card-title">
                     2. Food <br>Photography
                   </h4>
                 </div>
               </div>
             </div>
-            
+
             <!-- Premium Plan  -->
-            <div class="col-xs-12 col-lg-4">
-              <div class="card">
+            <div class="col-xs-12 col-lg-4" onclick="plan_3()">
+              <div class="card" id="plan3">
                 <div class="card-header">
                   <h3><span class="currency">IDR</span>750k<span class="period"></span></h3>
                 </div>
                 <div class="card-block">
-                  <h4 class="card-title"> 
+                  <h4 class="card-title">
                     3. Journalism <br>Photography
                   </h4>
                 </div>
@@ -511,24 +520,27 @@
             </div>
 
             <!-- WEB WORKER -->
-            <form>
-              <div>
-                <br>
-                <label for="number1">Jenis Paket : </label>    
-                <input type="text" class="form-control jarak" id="number1" value="0">
-              </div>
-              <div>
-                <label for="number2">Lama Sewa  : </label>   
-                <input type="text" class="form-control jarak" id="number2" value="0">
-              </div>
-              <div>
-                <p class="result">Rp. 0</p>
+            
+            <form class="col-md-12 col tengah">
+              <div class="tengah2">
+                <input type="text" class="form-control jarak" id="number1" value="0" hidden>
+                <div class="col-xs-12 col-lg-4 mt-4">
+                  Lama Sewa :
+                </div>
+                <div class="col-xs-12 col-lg-4">
+                  <input type="text" class="form-control jarak2" id="number2" value="0">
+                </div>
+                <div class="col-xs-12 col-lg-4">
+                  <p class="result">Rp. 0</p>
+                </div>
               </div>
             </form>
+
           </div>
           <script src="main.js"></script>
         </div>
       </section>
+
 
 
 
